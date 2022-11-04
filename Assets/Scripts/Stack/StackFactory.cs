@@ -15,8 +15,9 @@ public class StackFactory : MonoBehaviour
     public StackObject GetStackObject(int colorIndex)
     {
         GameObject gameObject = PoolManager.Instance.BoxPool.GetObject();
+        gameObject.SetActive(true);
         StackObject stackObject = gameObject.GetComponent<StackObject>();
-        stackObject._meshRenderer.material = _stackAssets.GetMaterial(colorIndex);
+        stackObject.StackMeshRenderer.material = _stackAssets.GetMaterial(colorIndex);
         return stackObject;
     }
 }

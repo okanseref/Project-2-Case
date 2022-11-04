@@ -5,17 +5,13 @@ using UnityEngine;
 public class StackAssets : ScriptableObject
 {
     [SerializeField] Material[] materials;
-    void Start()
-    {
-        
-    }
+    [SerializeField] Vector3 defaultSize;
     public Material GetMaterial(int index)
     {
         return materials[Mathf.Clamp(index, 0, materials.Length)];
     }
-    // Update is called once per frame
-    void Update()
+    public Vector3 GetStackSize()
     {
-        
+        return defaultSize;
     }
 }

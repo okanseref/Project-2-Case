@@ -8,10 +8,12 @@ public class ObjectPool : MonoBehaviour
     [SerializeField] private GameObject _objectPrefab;
 
     private Queue<GameObject> _queue;
-
-    private void Start()
+    private void Awake()
     {
         _queue = new Queue<GameObject>();
+    }
+    private void Start()
+    {
         for (int i = 0; i < 10; i++)
         {
             CreateNewObject();
