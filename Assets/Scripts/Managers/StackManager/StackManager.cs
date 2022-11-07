@@ -8,33 +8,46 @@ public class StackManager : MonoBehaviour
 {
     public StackAssets StackAssetsObject { get; private set; }
     private StackArranger _stackArranger;
-    private int remainingStacks=0;
-    private Action stepCompleteAction;
+    private int _remainingStacks=0;
+    private Action _stepCompleteAction;
     public void Construct(StackAssets stackAssetsObject, StackArranger stackArranger)
     {
         StackAssetsObject = stackAssetsObject;
         _stackArranger = stackArranger;
     }
-    public void SetLevelLength(int levelLength)
+    public void SetLevelLength(int levelLength,bool isFirstLevel)
     {
-        _stackArranger.CreateFirstStack();
-        remainingStacks = levelLength;
+        if (isFirstLevel)
+        {
+            _stackArranger.CreateFirstStack();
+        }
+        _remainingStacks = levelLength;
+        _stackArranger.MoveNewStack();
     }
     public void SetStepCompleteAction(Action action)
     {
-        stepCompleteAction = action;
+        _stepCompleteAction = action;
+    }
+    public float GetZPosition()
+    {
+        return _stackArranger.GetZPosition();
     }
     public void DoStackAction()
     {
-        remainingStacks--;
-        if (remainingStacks >= 0)
+        _remainingStacks--;
+        if (_remainingStacks >= 0)
         {
             _stackArranger.CalculateMerge();
-            stepCompleteAction();
+            _stepCompleteAction();
         }
-        if (remainingStacks > 0)
+        if (_remainingStacks > 0)
         {
             _stackArranger.MoveNewStack();
+        }
+
+        if (_remainingStacks == 0)
+        {
+            _stackArranger.PrepareForNewLevel();
         }
     }
     public float GetCenterPosition()

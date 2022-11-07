@@ -6,13 +6,15 @@ using UnityEngine;
 public class Stickman : MonoBehaviour, MainCharacter
 {
     private Animator _animator;
+    private Rigidbody _rigidbody;
     private float _speed = 0;
     private bool _runnable = false;
 
 
-    public void Construct(Animator animator)
+    public void Construct(Animator animator,Rigidbody rigidbody)
     {
         _animator = animator;
+        _rigidbody = rigidbody;
     }
 
     public void SetCenter(float xPosition)
@@ -28,8 +30,10 @@ public class Stickman : MonoBehaviour, MainCharacter
     {
         _runnable = true;
         _animator.SetTrigger("run");
+        transform.rotation = Quaternion.Euler(0, 0, 0);
+        transform.position = new Vector3(transform.position.x, 0, transform.position.z);
+        SetCenter(0);
     }
-
     public void SetSpeed(float speed)
     {
         _speed = speed;
@@ -43,11 +47,21 @@ public class Stickman : MonoBehaviour, MainCharacter
     {
         return transform.position;
     }
-    private void Update()
+    private void FixedUpdate()
     {
+        if (transform.position.y < -2 && _runnable)
+        {
+            //fail
+            _runnable = false;
+
+        }
         if (_runnable)
         {
-            transform.position = transform.position + Vector3.forward * Time.deltaTime * _speed;
+            _rigidbody.velocity = new Vector3(0, _rigidbody.velocity.y, _speed);
+        }
+        else
+        {
+            _rigidbody.velocity = new Vector3(0, 0, 0);
         }
     }
 

@@ -13,13 +13,16 @@ namespace Managers
         public CameraManager CameraManager { get; private set; }
         public SoundManager SoundManager { get; private set; }
         public GameManager GameManager { get; private set; }
+        public PoolManager PoolManager { get; private set; }
 
-        public void Construct(StackManager stackManager, LevelManager levelManager, CameraManager cameraManager, SoundManager soundManager)
+        public void Construct(StackManager stackManager, LevelManager levelManager, CameraManager cameraManager, SoundManager soundManager, GameManager gameManager, PoolManager poolManager)
         {
             StackManager = stackManager;
             LevelManager = levelManager;
             CameraManager = cameraManager;
             SoundManager = soundManager;
+            GameManager = gameManager;
+            PoolManager = poolManager;
         }
 
         private void Awake()

@@ -7,7 +7,7 @@ public class StackFactory : MonoBehaviour
 {
     public StackObject GetStackObject(int colorIndex)
     {
-        GameObject gameObject = PoolManager.Instance.BoxPool.GetObject();
+        GameObject gameObject = MainManager.Instance.PoolManager.BoxPool.GetObject();
         gameObject.SetActive(true);
         gameObject.transform.localScale = MainManager.Instance.StackManager.StackAssetsObject.GetStackSize();
         StackObject stackObject = gameObject.GetComponent<StackObject>();
@@ -16,6 +16,6 @@ public class StackFactory : MonoBehaviour
     }
     public void DestroyStackObject(StackObject stackObjectToDestroy)
     {
-        PoolManager.Instance.BoxPool.ReturnObject(stackObjectToDestroy.gameObject);
+        MainManager.Instance.PoolManager.BoxPool.ReturnObject(stackObjectToDestroy.gameObject);
     }
 }

@@ -13,7 +13,7 @@ public class CameraDance : CameraBase
         base.ToggleCamera(isOn);
         if (isOn)
         {
-            Dance(MainManager.Instance.GameManager.MainCharacter.GetPosition(), 4f);
+            Dance(MainManager.Instance.GameManager.MainCharacter.GetPosition(), MainManager.Instance.CameraManager.danceTime);
         }
     }
     public void Dance(Vector3 playerPosition, float time)

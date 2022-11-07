@@ -1,3 +1,4 @@
+using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -22,20 +23,32 @@ namespace Managers
             MainCharacter.SetSpeed(Speed);
             MainCharacter.Run();
             MainManager.Instance.CameraManager.ChangeCam(CameraManager.CamType.Play);
-            StartLevel(4);
+            StartLevel(3,true);
         }
-        private void StartLevel(int levelLength)
+        private void StartLevel(int levelLength,bool isFirstLevel)
         {
-            MainManager.Instance.StackManager.SetLevelLength(levelLength);
-            MainManager.Instance.LevelManager.SetFinish(levelLength);
+            MainManager.Instance.StackManager.SetLevelLength(levelLength, isFirstLevel);
+            MainManager.Instance.LevelManager.SetFinish(levelLength, isFirstLevel);
         }
         private void StepComplete()
         {
             MainCharacter.SetCenter(MainManager.Instance.StackManager.GetCenterPosition());
         }
-        private void LevelComplete()
+        public void LevelComplete()
         {
-            
+            MainCharacter.Stop();
+            MainCharacter.Dance();
+            MainManager.Instance.CameraManager.ChangeCam(CameraManager.CamType.Dance);
+            Sequence waitAndPlay = DOTween.Sequence();
+            waitAndPlay.AppendInterval(MainManager.Instance.CameraManager.danceTime+0.3f);
+            waitAndPlay.AppendCallback(() =>
+            {
+                MainManager.Instance.CameraManager.ChangeCam(CameraManager.CamType.Play);
+                StartLevel(2, false) ;
+                MainCharacter.SetSpeed(Speed);
+                MainCharacter.Run();
+            });
+
         }
 
     }
