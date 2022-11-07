@@ -23,11 +23,13 @@ public class StackArranger : MonoBehaviour
     {
         _stackFactory.DestroyStackObject(_nextStack);
         _nextStack = null;
+        MainManager.Instance.GameManager.LevelFailed();
     }
     public void PrepareForNewLevel()
     {
         _zPosition += MainManager.Instance.LevelManager.GetZLengthOfFinish();
         CurrentStack = _referenceStack;
+        _colorIndex = 0;
     }
     public float GetZPosition()
     {
@@ -75,7 +77,7 @@ public class StackArranger : MonoBehaviour
 
         if (nextLeftX < rightX && nextRightX > leftX)
         {
-            if (Mathf.Abs(nextLeftX - leftX) < 0.1f)// check perfect merge
+            if (Mathf.Abs(nextLeftX - leftX) < Tolerance)// check perfect merge
             {
                 print("perfect merge");
                 solidPieceLeft = leftX;

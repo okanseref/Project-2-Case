@@ -1,4 +1,5 @@
 using DG.Tweening;
+using Managers;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -53,7 +54,7 @@ public class Stickman : MonoBehaviour, MainCharacter
         {
             //fail
             _runnable = false;
-
+            MainManager.Instance.GameManager.LevelFailed();
         }
         if (_runnable)
         {
@@ -61,9 +62,12 @@ public class Stickman : MonoBehaviour, MainCharacter
         }
         else
         {
-            _rigidbody.velocity = new Vector3(0, 0, 0);
+            _rigidbody.velocity = new Vector3(0, _rigidbody.velocity.y, 0);
         }
     }
 
-
+    public bool IsRunning()
+    {
+        return _runnable;
+    }
 }

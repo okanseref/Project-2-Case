@@ -2,6 +2,7 @@ using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace Managers
 {
@@ -10,6 +11,7 @@ namespace Managers
         [SerializeField] float Speed;
         public MainCharacter MainCharacter { get; private set; }
         private InputHandler _inputHandler;
+        private bool _gameRunning;
 
         public void Construct(MainCharacter mainCharacter, InputHandler inputHandler)
         {
@@ -18,10 +20,10 @@ namespace Managers
         }
         private void Start()
         {
+            _gameRunning = true;
             _inputHandler.SetInputEvent(MainManager.Instance.StackManager.DoStackAction);
             MainManager.Instance.StackManager.SetStepCompleteAction(StepComplete);
             MainCharacter.SetSpeed(Speed);
-            MainCharacter.Run();
             MainManager.Instance.CameraManager.ChangeCam(CameraManager.CamType.Play);
             StartLevel(3,true);
         }
@@ -32,10 +34,17 @@ namespace Managers
         }
         private void StepComplete()
         {
+            if (!MainCharacter.IsRunning())
+            {
+                MainCharacter.Run();
+            }
+
             MainCharacter.SetCenter(MainManager.Instance.StackManager.GetCenterPosition());
         }
         public void LevelComplete()
         {
+            MainManager.Instance.UIManager.ShowScreen(UIManager.ScreenType.Success);
+
             MainCharacter.Stop();
             MainCharacter.Dance();
             MainManager.Instance.CameraManager.ChangeCam(CameraManager.CamType.Dance);
@@ -45,10 +54,26 @@ namespace Managers
             {
                 MainManager.Instance.CameraManager.ChangeCam(CameraManager.CamType.Play);
                 StartLevel(2, false) ;
-                MainCharacter.SetSpeed(Speed);
-                MainCharacter.Run();
+                MainManager.Instance.UIManager.ShowScreen(UIManager.ScreenType.None);
+
             });
 
+        }
+        public void LevelFailed()
+        {
+            if (!_gameRunning)
+            {
+                return;
+            }
+            _gameRunning = false;
+            MainManager.Instance.UIManager.ShowScreen(UIManager.ScreenType.Fail);
+            Sequence waitAndRestart = DOTween.Sequence();
+            waitAndRestart.AppendInterval(1f);
+            waitAndRestart.AppendCallback(() =>
+            {
+                MainManager.Instance.UIManager.ShowScreen(UIManager.ScreenType.None);
+                SceneManager.LoadScene(0);
+            });
         }
 
     }

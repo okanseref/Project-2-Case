@@ -4,15 +4,16 @@ using UnityEngine;
 
 public class UIManager : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    [SerializeField] GameObject failScreen, successScreen;
+    public void ShowScreen(ScreenType screenType)
     {
-        
+        failScreen.SetActive(screenType == ScreenType.Fail);
+        successScreen.SetActive(screenType == ScreenType.Success);
     }
-
-    // Update is called once per frame
-    void Update()
+    public enum ScreenType
     {
-        
+        None,
+        Success,
+        Fail
     }
 }

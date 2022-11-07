@@ -14,8 +14,9 @@ namespace Managers
         public SoundManager SoundManager { get; private set; }
         public GameManager GameManager { get; private set; }
         public PoolManager PoolManager { get; private set; }
+        public UIManager UIManager { get; private set; }
 
-        public void Construct(StackManager stackManager, LevelManager levelManager, CameraManager cameraManager, SoundManager soundManager, GameManager gameManager, PoolManager poolManager)
+        public void Construct(StackManager stackManager, LevelManager levelManager, CameraManager cameraManager, SoundManager soundManager, GameManager gameManager, PoolManager poolManager, UIManager uIManager)
         {
             StackManager = stackManager;
             LevelManager = levelManager;
@@ -23,6 +24,7 @@ namespace Managers
             SoundManager = soundManager;
             GameManager = gameManager;
             PoolManager = poolManager;
+            UIManager = uIManager;
         }
 
         private void Awake()
