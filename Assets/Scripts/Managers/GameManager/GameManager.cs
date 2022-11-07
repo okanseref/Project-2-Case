@@ -25,12 +25,13 @@ namespace Managers
             MainManager.Instance.StackManager.SetStepCompleteAction(StepComplete);
             MainCharacter.SetSpeed(Speed);
             MainManager.Instance.CameraManager.ChangeCam(CameraManager.CamType.Play);
-            StartLevel(3,true);
+            StartLevel(Random.Range(11,13),true);
         }
         private void StartLevel(int levelLength,bool isFirstLevel)
         {
             MainManager.Instance.StackManager.SetLevelLength(levelLength, isFirstLevel);
             MainManager.Instance.LevelManager.SetFinish(levelLength, isFirstLevel);
+            _inputHandler.EnableInput(true);
         }
         private void StepComplete()
         {
@@ -38,13 +39,12 @@ namespace Managers
             {
                 MainCharacter.Run();
             }
-
             MainCharacter.SetCenter(MainManager.Instance.StackManager.GetCenterPosition());
         }
         public void LevelComplete()
         {
             MainManager.Instance.UIManager.ShowScreen(UIManager.ScreenType.Success);
-
+            _inputHandler.EnableInput(false);
             MainCharacter.Stop();
             MainCharacter.Dance();
             MainManager.Instance.CameraManager.ChangeCam(CameraManager.CamType.Dance);
@@ -53,7 +53,7 @@ namespace Managers
             waitAndPlay.AppendCallback(() =>
             {
                 MainManager.Instance.CameraManager.ChangeCam(CameraManager.CamType.Play);
-                StartLevel(2, false) ;
+                StartLevel(Random.Range(11, 13), false) ;
                 MainManager.Instance.UIManager.ShowScreen(UIManager.ScreenType.None);
 
             });
@@ -65,6 +65,7 @@ namespace Managers
             {
                 return;
             }
+            _inputHandler.EnableInput(false);
             _gameRunning = false;
             MainManager.Instance.UIManager.ShowScreen(UIManager.ScreenType.Fail);
             Sequence waitAndRestart = DOTween.Sequence();

@@ -6,4 +6,5 @@ using UnityEngine;
 public interface InputHandler 
 {
     public void SetInputEvent(Action clickEvent);
+    public void EnableInput(bool enable);
 }

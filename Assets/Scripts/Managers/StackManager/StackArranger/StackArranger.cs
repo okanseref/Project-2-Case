@@ -57,7 +57,7 @@ public class StackArranger : MonoBehaviour
         _nextStack.transform.localScale = CurrentStack.transform.localScale;
         _zPosition += _nextStack.transform.localScale.z;
         _nextStack.transform.position = new Vector3(4, -0.5f, _zPosition);
-        _tween = _nextStack.transform.DOMoveX(-4, 2).SetEase(Ease.Linear).OnComplete(() =>
+        _tween = _nextStack.transform.DOMoveX(-4, 2.25f).SetEase(Ease.Linear).OnComplete(() =>
         {
             // Failed
             Failed();
