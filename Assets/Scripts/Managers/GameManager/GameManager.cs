@@ -46,10 +46,9 @@ namespace Managers
             _inputHandler.EnableInput(false);
             MainCharacter.Stop();
             MainCharacter.Dance();
-            MainManager.Instance.SoundManager.RefreshPitch();
             MainManager.Instance.CameraManager.ChangeCam(CameraManager.CamType.Dance);
             Sequence waitAndPlay = DOTween.Sequence();
-            waitAndPlay.AppendInterval(MainManager.Instance.CameraManager.danceTime+0.3f);
+            waitAndPlay.AppendInterval(MainManager.Instance.CameraManager.DanceTime+0.3f);
             waitAndPlay.AppendCallback(() =>
             {
                 MainManager.Instance.CameraManager.ChangeCam(CameraManager.CamType.Play);

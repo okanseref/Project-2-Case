@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class CameraManager : MonoBehaviour
 {
-    public float danceTime = 1f;
+    public float DanceTime = 1f;
     private CameraBase _playCam;
     private CameraDance _danceCam;
 

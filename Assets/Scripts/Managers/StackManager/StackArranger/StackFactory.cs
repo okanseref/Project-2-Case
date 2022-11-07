@@ -14,8 +14,4 @@ public class StackFactory : MonoBehaviour
         stackObject.StackMeshRenderer.material = MainManager.Instance.StackManager.StackAssetsObject.GetMaterial(colorIndex);
         return stackObject;
     }
-    public void DestroyStackObject(StackObject stackObjectToDestroy)
-    {
-        MainManager.Instance.PoolManager.BoxPool.ReturnObject(stackObjectToDestroy.gameObject);
-    }
 }

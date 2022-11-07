@@ -8,12 +8,15 @@ using UnityEngine;
 public class StackManager : MonoBehaviour
 {
     public StackAssets StackAssetsObject { get; private set; }
+    public StackGarbageCollector StackGarbageCollector { get; private set; }
+
     private StackArranger _stackArranger;
     private int _remainingStacks = 0;
     private Action _stepCompleteAction;
-    public void Construct(StackAssets stackAssetsObject, StackArranger stackArranger)
+    public void Construct(StackAssets stackAssetsObject, StackArranger stackArranger,StackGarbageCollector stackGarbageCollector)
     {
         StackAssetsObject = stackAssetsObject;
+        StackGarbageCollector = stackGarbageCollector;
         _stackArranger = stackArranger;
     }
     public void SetLevelLength(int levelLength, bool isFirstLevel)
@@ -22,6 +25,7 @@ public class StackManager : MonoBehaviour
         {
             _stackArranger.CreateFirstStack();
         }
+        StackGarbageCollector.ClearGarbages(); // clear old level
         _remainingStacks = levelLength;
         _stackArranger.MoveNewStack();
         MainManager.Instance.SoundManager.RefreshPitch();
@@ -55,6 +59,6 @@ public class StackManager : MonoBehaviour
     }
     public float GetCenterPosition()
     {
-        return _stackArranger.CurrentStack.transform.position.x;
+        return _stackArranger.GetStackCenterPosition();
     }
 }

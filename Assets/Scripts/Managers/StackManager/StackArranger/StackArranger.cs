@@ -7,7 +7,7 @@ using UnityEngine;
 public class StackArranger : MonoBehaviour
 {
     public float Tolerance = 0.5f;
-    public StackObject CurrentStack { get; private set; }
+    private StackObject _currentStack;
     private StackObject _referenceStack;
     private StackObject _nextStack;
     private StackFactory _stackFactory;
@@ -21,19 +21,22 @@ public class StackArranger : MonoBehaviour
     }
     private void Failed()
     {
-        _stackFactory.DestroyStackObject(_nextStack);
+        MainManager.Instance.StackManager.StackGarbageCollector.DestroyImmediate(_nextStack);
         _nextStack = null;
-        //MainManager.Instance.GameManager.LevelFailed();
     }
     public void PrepareForNewLevel()
     {
         _zPosition += MainManager.Instance.LevelManager.GetZLengthOfFinish();
-        CurrentStack = _referenceStack;
+        _currentStack = _referenceStack;
         _colorIndex = 0;
     }
     public float GetZPosition()
     {
         return _zPosition;
+    }
+    public float GetStackCenterPosition()
+    {
+        return _currentStack.transform.position.x;
     }
     private void CreateFallStack(float leftBound, float rightBound)
     {
@@ -41,33 +44,35 @@ public class StackArranger : MonoBehaviour
         fallStack.transform.position = new Vector3((leftBound + rightBound) / 2, _nextStack.transform.position.y, _nextStack.transform.position.z);
         fallStack.transform.localScale = new Vector3(Mathf.Abs(leftBound - rightBound), _nextStack.transform.localScale.y, _nextStack.transform.localScale.z);
         fallStack.transform.DOMoveY(-10, 1.5f).OnComplete(() => {
-            _stackFactory.DestroyStackObject(fallStack);
+            MainManager.Instance.StackManager.StackGarbageCollector.DestroyImmediate(fallStack);
         });
     }
     public void CreateFirstStack()
     {
-        CurrentStack = _stackFactory.GetStackObject(_colorIndex);
-        CurrentStack.transform.position = new Vector3(0, -0.5f, _zPosition);
+        _currentStack = _stackFactory.GetStackObject(_colorIndex);
+        _currentStack.transform.position = new Vector3(0, -0.5f, _zPosition);
         _colorIndex++;
-        _referenceStack = CurrentStack;
+        _referenceStack = _currentStack;
     }
     public void MoveNewStack()
     {
         _nextStack = _stackFactory.GetStackObject(_colorIndex);
-        _nextStack.transform.localScale = CurrentStack.transform.localScale;
+        _nextStack.transform.localScale = _currentStack.transform.localScale;
         _zPosition += _nextStack.transform.localScale.z;
         _nextStack.transform.position = new Vector3(4, -0.5f, _zPosition);
         _tween = _nextStack.transform.DOMoveX(-4, 2.25f).SetEase(Ease.Linear).OnComplete(() =>
         {
             // Failed
             _nextStack.gameObject.SetActive(false);
+            MainManager.Instance.GameManager.LevelFailed();
         });
+        MainManager.Instance.StackManager.StackGarbageCollector.ThrowToGarbage(_nextStack);
         _colorIndex++;
     }
     public bool CalculateMerge()
     {
-        float leftX = CurrentStack.transform.position.x - CurrentStack.StackBoxCollider.bounds.extents.x;
-        float rightX = CurrentStack.transform.position.x + CurrentStack.StackBoxCollider.bounds.extents.x;
+        float leftX = _currentStack.transform.position.x - _currentStack.StackBoxCollider.bounds.extents.x;
+        float rightX = _currentStack.transform.position.x + _currentStack.StackBoxCollider.bounds.extents.x;
         float nextLeftX = _nextStack.transform.position.x - _nextStack.StackBoxCollider.bounds.extents.x;
         float nextRightX = _nextStack.transform.position.x + _nextStack.StackBoxCollider.bounds.extents.x;
         float solidPieceLeft;
@@ -117,7 +122,7 @@ public class StackArranger : MonoBehaviour
 
             _nextStack.transform.position = new Vector3((solidPieceLeft + solidPieceRight) / 2, _nextStack.transform.position.y, _nextStack.transform.position.z);
             _nextStack.transform.localScale = new Vector3(Mathf.Abs(solidPieceRight - solidPieceLeft), _nextStack.transform.localScale.y, _nextStack.transform.localScale.z);
-            CurrentStack = _nextStack;
+            _currentStack = _nextStack;
             return true;
         }
         else // Failed to merge
