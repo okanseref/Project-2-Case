@@ -11,7 +11,10 @@ public class CameraDance : CameraBase
     public override void ToggleCamera(bool isOn)
     {
         base.ToggleCamera(isOn);
-        Dance(GameManager.Instance.MainCharacter.GetPosition(),4f);
+        if (isOn)
+        {
+            Dance(MainManager.Instance.GameManager.MainCharacter.GetPosition(), 4f);
+        }
     }
     public void Dance(Vector3 playerPosition, float time)
     {

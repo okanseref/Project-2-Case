@@ -14,7 +14,7 @@ public class LevelManager : MonoBehaviour
         {
             Destroy(_oldFinish);
         }
-        float stackSizeZ = GameManager.Instance.StackAssets.GetStackSize().z;
+        float stackSizeZ = MainManager.Instance.StackManager.StackAssetsObject.GetStackSize().z;
         _currentFinish = Instantiate(_finishPrefab);
         _currentFinish.transform.position = new Vector3(0, 0, stackSizeZ * (levelLength+0.5f));
     }

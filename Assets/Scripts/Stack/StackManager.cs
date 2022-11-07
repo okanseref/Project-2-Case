@@ -6,11 +6,13 @@ using UnityEngine;
 
 public class StackManager : MonoBehaviour 
 {
+    public StackAssets StackAssetsObject { get; private set; }
     private StackArranger _stackArranger;
     private int remainingStacks=0;
     private Action stepCompleteAction;
-    public void Construct(StackArranger stackArranger)
+    public void Construct(StackAssets stackAssetsObject, StackArranger stackArranger)
     {
+        StackAssetsObject = stackAssetsObject;
         _stackArranger = stackArranger;
     }
     public void SetLevelLength(int levelLength)

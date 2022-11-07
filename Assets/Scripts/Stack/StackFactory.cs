@@ -9,9 +9,9 @@ public class StackFactory : MonoBehaviour
     {
         GameObject gameObject = PoolManager.Instance.BoxPool.GetObject();
         gameObject.SetActive(true);
-        gameObject.transform.localScale = GameManager.Instance.StackAssets.GetStackSize();
+        gameObject.transform.localScale = MainManager.Instance.StackManager.StackAssetsObject.GetStackSize();
         StackObject stackObject = gameObject.GetComponent<StackObject>();
-        stackObject.StackMeshRenderer.material = GameManager.Instance.StackAssets.GetMaterial(colorIndex);
+        stackObject.StackMeshRenderer.material = MainManager.Instance.StackManager.StackAssetsObject.GetMaterial(colorIndex);
         return stackObject;
     }
     public void DestroyStackObject(StackObject stackObjectToDestroy)

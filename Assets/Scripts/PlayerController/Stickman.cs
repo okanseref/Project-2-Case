@@ -39,6 +39,10 @@ public class Stickman : MonoBehaviour, MainCharacter
     {
         _runnable = false;
     }
+    public Vector3 GetPosition()
+    {
+        return transform.position;
+    }
     private void Update()
     {
         if (_runnable)
@@ -47,8 +51,5 @@ public class Stickman : MonoBehaviour, MainCharacter
         }
     }
 
-    public Vector3 GetPosition()
-    {
-        return transform.position;
-    }
+
 }
