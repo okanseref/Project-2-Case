@@ -46,4 +46,9 @@ public class Stickman : MonoBehaviour, MainCharacter
             transform.position = transform.position + Vector3.forward * Time.deltaTime * _speed;
         }
     }
+
+    public Vector3 GetPosition()
+    {
+        return transform.position;
+    }
 }

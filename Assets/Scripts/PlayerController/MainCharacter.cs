@@ -8,5 +8,6 @@ public interface MainCharacter
     public void Dance();
     public void Stop();
     public void SetCenter(float xPosition);
+    public Vector3 GetPosition();
     public void SetSpeed(float speed);
 }

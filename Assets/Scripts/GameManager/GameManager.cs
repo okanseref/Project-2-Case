@@ -10,25 +10,28 @@ namespace Managers
         [SerializeField] float Speed;
         public StackAssets StackAssets { get; private set; }
 
-        private MainCharacter _mainCharacter;
+        public MainCharacter MainCharacter { get; private set; }
         private StackManager _stackManager;
         private InputHandler _inputHandler;
         private LevelManager _levelManager;
+        private CameraManager _cameraManager;
 
-        public void Construct(StackAssets stackAssets, MainCharacter mainCharacter, StackManager stackManager, InputHandler inputHandler, LevelManager levelManager)
+        public void Construct(StackAssets stackAssets, MainCharacter mainCharacter, StackManager stackManager, InputHandler inputHandler, LevelManager levelManager,CameraManager cameraManager)
         {
             StackAssets = stackAssets;
-            _mainCharacter = mainCharacter;
+            MainCharacter = mainCharacter;
             _stackManager = stackManager;
             _inputHandler = inputHandler;
             _levelManager = levelManager;
+            _cameraManager = cameraManager;
         }
         private void Start()
         {
             _inputHandler.SetInputEvent(_stackManager.DoStackAction);
             _stackManager.SetStepCompleteAction(StepComplete);
-            _mainCharacter.SetSpeed(Speed);
-            _mainCharacter.Run();
+            MainCharacter.SetSpeed(Speed);
+            //_mainCharacter.Run();
+            _cameraManager.ChangeCam(CameraManager.CamType.Dance);
             StartLevel(4);
         }
         private void StartLevel(int levelLength)
@@ -38,7 +41,7 @@ namespace Managers
         }
         private void StepComplete()
         {
-            _mainCharacter.SetCenter(_stackManager.GetCenterPosition());
+            MainCharacter.SetCenter(_stackManager.GetCenterPosition());
         }
 
         private void Awake()
