@@ -23,7 +23,7 @@ public class StackArranger : MonoBehaviour
     {
         _stackFactory.DestroyStackObject(_nextStack);
         _nextStack = null;
-        MainManager.Instance.GameManager.LevelFailed();
+        //MainManager.Instance.GameManager.LevelFailed();
     }
     public void PrepareForNewLevel()
     {
@@ -40,7 +40,7 @@ public class StackArranger : MonoBehaviour
         StackObject fallStack = _stackFactory.GetStackObject(_colorIndex - 1);
         fallStack.transform.position = new Vector3((leftBound + rightBound) / 2, _nextStack.transform.position.y, _nextStack.transform.position.z);
         fallStack.transform.localScale = new Vector3(Mathf.Abs(leftBound - rightBound), _nextStack.transform.localScale.y, _nextStack.transform.localScale.z);
-        fallStack.transform.DOMoveY(-10, 2f).OnComplete(() => {
+        fallStack.transform.DOMoveY(-10, 1.5f).OnComplete(() => {
             _stackFactory.DestroyStackObject(fallStack);
         });
     }
@@ -60,11 +60,11 @@ public class StackArranger : MonoBehaviour
         _tween = _nextStack.transform.DOMoveX(-4, 2.25f).SetEase(Ease.Linear).OnComplete(() =>
         {
             // Failed
-            Failed();
+            _nextStack.gameObject.SetActive(false);
         });
         _colorIndex++;
     }
-    public void CalculateMerge()
+    public bool CalculateMerge()
     {
         float leftX = CurrentStack.transform.position.x - CurrentStack.StackBoxCollider.bounds.extents.x;
         float rightX = CurrentStack.transform.position.x + CurrentStack.StackBoxCollider.bounds.extents.x;
@@ -118,11 +118,13 @@ public class StackArranger : MonoBehaviour
             _nextStack.transform.position = new Vector3((solidPieceLeft + solidPieceRight) / 2, _nextStack.transform.position.y, _nextStack.transform.position.z);
             _nextStack.transform.localScale = new Vector3(Mathf.Abs(solidPieceRight - solidPieceLeft), _nextStack.transform.localScale.y, _nextStack.transform.localScale.z);
             CurrentStack = _nextStack;
+            return true;
         }
         else // Failed to merge
         {
             CreateFallStack(nextLeftX, nextRightX);
             Failed();
+            return false;
         }
 
     }

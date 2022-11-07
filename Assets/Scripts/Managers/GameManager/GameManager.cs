@@ -8,7 +8,6 @@ namespace Managers
 {
     public class GameManager : MonoBehaviour
     {
-        [SerializeField] float Speed;
         public MainCharacter MainCharacter { get; private set; }
         private InputHandler _inputHandler;
         private bool _gameRunning;
@@ -23,7 +22,7 @@ namespace Managers
             _gameRunning = true;
             _inputHandler.SetInputEvent(MainManager.Instance.StackManager.DoStackAction);
             MainManager.Instance.StackManager.SetStepCompleteAction(StepComplete);
-            MainCharacter.SetSpeed(Speed);
+            MainCharacter.SetSpeed(2.2f);
             MainManager.Instance.CameraManager.ChangeCam(CameraManager.CamType.Play);
             StartLevel(Random.Range(11,13),true);
         }
@@ -47,6 +46,7 @@ namespace Managers
             _inputHandler.EnableInput(false);
             MainCharacter.Stop();
             MainCharacter.Dance();
+            MainManager.Instance.SoundManager.RefreshPitch();
             MainManager.Instance.CameraManager.ChangeCam(CameraManager.CamType.Dance);
             Sequence waitAndPlay = DOTween.Sequence();
             waitAndPlay.AppendInterval(MainManager.Instance.CameraManager.danceTime+0.3f);

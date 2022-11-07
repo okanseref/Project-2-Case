@@ -712,7 +712,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 44c7b36fb8a7f5748b4555a2ce6cbc03, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Speed: 2.2
 --- !u!4 &101238039
 Transform:
   m_ObjectHideFlags: 0
@@ -1033,7 +1032,7 @@ Transform:
   m_Children:
   - {fileID: 461182422}
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 36, y: -135, z: 0}
 --- !u!114 &146170047
 MonoBehaviour:
@@ -7618,8 +7617,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sounds:
-  - {fileID: 8300000, guid: 7fd67e936a3bef74ea47a98260533790, type: 3}
-  startPitch: 0.5
+  - {fileID: 8300000, guid: cec55243390df4f4db771777a871e049, type: 3}
+  startPitch: 0.45
   addPitch: 0.12
 --- !u!82 &1817178387
 AudioSource:
@@ -9524,7 +9523,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6424696454772903171, guid: dac1f0e150a866343804f6192895657e, type: 3}
       propertyPath: m_RootOrder
-      value: 4
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 6424696454772903171, guid: dac1f0e150a866343804f6192895657e, type: 3}
       propertyPath: m_LocalPosition.x

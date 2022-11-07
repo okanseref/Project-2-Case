@@ -58,7 +58,9 @@ public class Stickman : MonoBehaviour, MainCharacter
         }
         if (_runnable)
         {
-            _rigidbody.velocity = new Vector3(0, _rigidbody.velocity.y, _speed);
+            float bonusSpeed = (MainManager.Instance.StackManager.GetZPosition()-3.5f - transform.position.z)/4;
+            print(bonusSpeed);
+            _rigidbody.velocity = new Vector3(0, _rigidbody.velocity.y, _speed+ bonusSpeed);
         }
         else
         {
